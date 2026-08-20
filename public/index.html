@@ -1,67 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="/darak-invest-mobile/">
-
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="دارك وحيك — منصة عقارية ذكية للبيع والإيجار">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#10B981">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="دارك وحيك">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>دارك وحيك — منصة عقارية ذكية</title>
-  <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <script src="flutter_bootstrap.js" async></script>
+  <title>Darak - دارك</title>
   <script>
-    // Hard reset for the current build id: unregister EVERY service worker
-    // and wipe every cache once, so no device stays stuck on a stale build.
     if ('serviceWorker' in navigator) {
-      (async function () {
-        try {
-          var id = 'darak-v1';
-          var done = sessionStorage.getItem('darak_purged_' + id);
-          if (!done) {
-            sessionStorage.setItem('darak_purged_' + id, '1');
-            var regs = await navigator.serviceWorker.getRegistrations();
-            if (regs.length) await Promise.all(regs.map(function (r) { return r.unregister(); }));
-            if ('caches' in window) {
-              var keys = await caches.keys();
-              await Promise.all(keys.map(function (k) { return caches.delete(k); }));
-            }
-            window.location.reload();
-            return;
-          }
-        } catch (_) { /* ignore */ }
-        // Auto-refresh once the new Flutter service worker takes control.
-        navigator.serviceWorker.addEventListener('controllerchange', function () {
-          window.location.reload();
+      navigator.serviceWorker.getRegistrations().then(function(r) {
+        r.forEach(function(reg) { reg.unregister(); });
+      });
+      if (window.caches) {
+        caches.keys().then(function(k) {
+          k.forEach(function(n) { caches.delete(n); });
         });
-      })();
+      }
     }
   </script>
+</head>
+<body>
+  <script src="flutter_bootstrap.js?v=emerald-final-2" async></script>
 </body>
 </html>
